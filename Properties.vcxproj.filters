@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Properties">
+      <UniqueIdentifier>{6947c1b8-cf0a-4a3b-930b-15298569801e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Properties\UndoRedoManager.cpp">
+      <Filter>Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Properties\PropValue.cpp">
+      <Filter>Properties</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Properties\UndoRedoManager.h">
+      <Filter>Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties\PropValue.h">
+      <Filter>Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="MyClass.h" />
+  </ItemGroup>
+</Project>
