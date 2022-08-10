@@ -10,6 +10,38 @@
 namespace Properties
 {
 
+    class PropertyManager
+    {
+        std::vector<IUndoRedoProp*> _list;
+
+    public:
+        PropertyManager()
+        {
+        }
+
+        void add(IUndoRedoProp* newProp)
+        {
+            _list.push_back(newProp);
+        }
+
+        void clear()
+        {
+            _list.clear();
+        }
+
+        std::string toJson()
+        {
+            for(const auto &it : _list) {
+                printf("PropName: %s -> JSON: %s\n", it->getName().c_str(), it->toJson().c_str());
+            }
+            return "";
+        }
+
+        void fromJson(std::string json)
+        {
+
+        }
+    };
 
 
     template<typename T>
@@ -21,16 +53,18 @@ namespace Properties
         std::shared_ptr<T> _value;
         std::shared_ptr<T> _defaultValue;
         UndoRedoManager& _undoRedoMan;
+        PropertyManager& _propertyManager;
 
     public:
-        explicit PropValue(const std::string& name, std::shared_ptr<T> value, UndoRedoManager& undoRedoMan) : _name(name), _value(value), _defaultValue(value), _undoRedoMan(undoRedoMan)
+        explicit PropValue(const std::string& name, std::shared_ptr<T> value, UndoRedoManager& undoRedoMan, PropertyManager &propertyManager) 
+            : _name(name), _value(value), _defaultValue(value), _undoRedoMan(undoRedoMan), _propertyManager(propertyManager)
         {
-
+            propertyManager.add(this);
         }
 
-        explicit PropValue(const std::string& name, T value, UndoRedoManager& undoRedoMan) : PropValue(name, std::make_shared<T>(value), undoRedoMan)
+        explicit PropValue(const std::string& name, T value, UndoRedoManager& undoRedoMan, PropertyManager& propertyManager)
+            : PropValue(name, std::make_shared<T>(value), undoRedoMan, propertyManager)
         {
-
         }
 
 
@@ -91,10 +125,10 @@ namespace Properties
             return _name;
         }
 
-        std::string convertToJson(const T& value);
+        std::string convertToJson(const T& value) const;
 
 
-        std::string toJson()
+        std::string toJson() const override
         {
             const auto ptr = _value.get();
             if (ptr != 0) {
@@ -103,12 +137,15 @@ namespace Properties
             return "";
         }
 
-        void fromJson(std::string json)
+        void fromJson(std::string json) override
         {
 
         }
 
     };
+
+
+
 
 
 

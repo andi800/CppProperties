@@ -24,6 +24,8 @@ namespace Properties
     public:
         virtual void onUndo(std::shared_ptr<Change> change) = 0;
         virtual void onRedo(std::shared_ptr<Change> change) = 0;
+        virtual std::string toJson() const = 0;
+        virtual void fromJson(std::string json) = 0;
         virtual std::string getName() const = 0;
     };
 
