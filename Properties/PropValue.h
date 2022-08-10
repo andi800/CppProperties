@@ -12,10 +12,14 @@ namespace Properties
 
     class PropertyManager
     {
-        std::vector<IUndoRedoProp*> _list;
+        std::vector<IUndoRedoProp*> _list; // TODO: or better use map?
+
+        std::vector<PropertyManager*> _childManagers;
+
+        std::string _name;
 
     public:
-        PropertyManager()
+        PropertyManager(const std::string &name = "") : _name(name)
         {
         }
 
@@ -27,12 +31,17 @@ namespace Properties
         void clear()
         {
             _list.clear();
+            _childManagers.clear();
         }
 
-        std::string toJson()
+        std::string toJson() const
         {
             for(const auto &it : _list) {
                 printf("PropName: %s -> JSON: %s\n", it->getName().c_str(), it->toJson().c_str());
+            }
+            for (const auto* it : _childManagers) {
+                printf("CHILD %s\n", it->name().c_str());
+                it->toJson();
             }
             return "";
         }
@@ -40,6 +49,16 @@ namespace Properties
         void fromJson(std::string json)
         {
 
+        }
+
+        void addChild(PropertyManager *childMan)
+        {
+            _childManagers.push_back(childMan);
+        }
+
+        std::string name() const
+        {
+            return _name;
         }
     };
 

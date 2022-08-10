@@ -9,15 +9,15 @@ using namespace MyClassNamespace;
 struct StyleType
 {
     UndoRedoManager& _undoRedoMan;
-    PropertyManager& _propMan;
-    const std::string& _prefix;
-    PropValue<double> Margin = PropValue<double>(_prefix + "Margin", std::make_shared<double>(1000.0), _undoRedoMan, _propMan);
-    PropValue<double> Size = PropValue<double>(_prefix + "Size", 2000.0, _undoRedoMan, _propMan);  // automatic creation of shared ptr for 200.0
-    PropValue<int> Padding = PropValue(_prefix + "Padding", 3000, _undoRedoMan, _propMan);
-    PropValue<bool> IsDrawn = PropValue(_prefix + "IsDrawn", true, _undoRedoMan, _propMan);
+    PropertyManager _localPropMan;
+    PropValue<double> Margin = PropValue<double>("Margin", std::make_shared<double>(1000.0), _undoRedoMan, _localPropMan);
+    PropValue<double> Size = PropValue<double>("Size", 2000.0, _undoRedoMan, _localPropMan);  // automatic creation of shared ptr for 200.0
+    PropValue<int> Padding = PropValue("Padding", 3000, _undoRedoMan, _localPropMan);
+    PropValue<bool> IsDrawn = PropValue("IsDrawn", true, _undoRedoMan, _localPropMan);
 
-    StyleType(const std::string& prefix, UndoRedoManager& undoRedoMan, PropertyManager& propMan) : _undoRedoMan(undoRedoMan), _propMan(propMan), _prefix(prefix)
+    StyleType(const std::string& prefix, UndoRedoManager& undoRedoMan, PropertyManager& propMan) : _undoRedoMan(undoRedoMan), _localPropMan(PropertyManager(prefix))
     {
+        propMan.addChild(&_localPropMan);
     }
 };
 
