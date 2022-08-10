@@ -71,17 +71,19 @@ namespace Properties
         std::function<void(T)> _updateFunc = 0;
         std::shared_ptr<T> _value;
         std::shared_ptr<T> _defaultValue;
-        UndoRedoManager& _undoRedoMan;
-        PropertyManager& _propertyManager;
+        UndoRedoManager * _undoRedoMan = 0;
+        PropertyManager * _propertyManager = 0;
 
     public:
-        explicit PropValue(const std::string& name, std::shared_ptr<T> value, UndoRedoManager& undoRedoMan, PropertyManager &propertyManager) 
+        explicit PropValue(const std::string& name, std::shared_ptr<T> value, UndoRedoManager* undoRedoMan, PropertyManager* propertyManager)
             : _name(name), _value(value), _defaultValue(value), _undoRedoMan(undoRedoMan), _propertyManager(propertyManager)
         {
-            propertyManager.add(this);
+            if (propertyManager != nullptr) {
+                propertyManager->add(this);
+            }
         }
 
-        explicit PropValue(const std::string& name, T value, UndoRedoManager& undoRedoMan, PropertyManager& propertyManager)
+        explicit PropValue(const std::string& name, T value, UndoRedoManager *undoRedoMan, PropertyManager *propertyManager)
             : PropValue(name, std::make_shared<T>(value), undoRedoMan, propertyManager)
         {
         }
@@ -99,12 +101,12 @@ namespace Properties
 
         void set(std::shared_ptr<T> newValue)
         {
-            if (_undoRedoMan.CurrentCommand != nullptr) {
+            if (_undoRedoMan != nullptr && _undoRedoMan->CurrentCommand != nullptr) {
                 std::shared_ptr<Change> change = std::make_shared<Change>();
                 change->NewObj = newValue;
                 change->OldObj = _value;
                 //change->Type = typeid(T);
-                _undoRedoMan.CurrentCommand->add(this, change);
+                _undoRedoMan->CurrentCommand->add(this, change);
             }
             _value = newValue;
             if (_updateFunc && newValue) {

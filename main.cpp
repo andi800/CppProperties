@@ -8,16 +8,18 @@ using namespace MyClassNamespace;
 
 struct StyleType
 {
-    UndoRedoManager& _undoRedoMan;
+    UndoRedoManager *_undoRedoMan;
     PropertyManager _localPropMan;
-    PropValue<double> Margin = PropValue<double>("Margin", std::make_shared<double>(1000.0), _undoRedoMan, _localPropMan);
-    PropValue<double> Size = PropValue<double>("Size", 2000.0, _undoRedoMan, _localPropMan);  // automatic creation of shared ptr for 200.0
-    PropValue<int> Padding = PropValue("Padding", 3000, _undoRedoMan, _localPropMan);
-    PropValue<bool> IsDrawn = PropValue("IsDrawn", true, _undoRedoMan, _localPropMan);
+    PropValue<double> Margin = PropValue<double>("Margin", std::make_shared<double>(1000.0), _undoRedoMan, &_localPropMan);
+    PropValue<double> Size = PropValue<double>("Size", 2000.0, _undoRedoMan, &_localPropMan);  // automatic creation of shared ptr for 200.0
+    PropValue<int> Padding = PropValue("Padding", 3000, _undoRedoMan, &_localPropMan);
+    PropValue<bool> IsDrawn = PropValue("IsDrawn", true, _undoRedoMan, &_localPropMan);
 
-    StyleType(const std::string& prefix, UndoRedoManager& undoRedoMan, PropertyManager& propMan) : _undoRedoMan(undoRedoMan), _localPropMan(PropertyManager(prefix))
+    StyleType(const std::string& prefix, UndoRedoManager *undoRedoMan, PropertyManager *propMan) : _undoRedoMan(undoRedoMan), _localPropMan(PropertyManager(prefix))
     {
-        propMan.addChild(&_localPropMan);
+        if (propMan != nullptr) {
+            propMan->addChild(&_localPropMan);
+        }
     }
 };
 
@@ -27,10 +29,11 @@ class MyModel
 public:
 
     // Note: The members will be initialized in the same order they are declared (even if you write the initializers in constructor in a different order).
-    UndoRedoManager &_undoRedoMan;
-    PropertyManager &_propMan;
+    UndoRedoManager *_undoRedoMan;
+    PropertyManager *_propMan;
 
     PropValue<double> Speed = PropValue<double>("Speed", std::make_shared<double>(100.0), _undoRedoMan, _propMan);
+    PropValue<double> SpeedNoSave = PropValue<double>("SpeedNoSave", std::make_shared<double>(110.0), _undoRedoMan, nullptr);
     PropValue<double> Size = PropValue<double>("Size", 200.0, _undoRedoMan, _propMan);  // automatic creation of shared ptr for 200.0
     PropValue<int> Count = PropValue("Count", 300, _undoRedoMan, _propMan);
     PropValue<bool> IsEmpty = PropValue("IsEmpty", true, _undoRedoMan, _propMan);
@@ -41,7 +44,7 @@ public:
 
     // TODO: list, set, map, container(class or struct)
 
-    MyModel(UndoRedoManager& undoRedoMan, PropertyManager& propMan) : _undoRedoMan(undoRedoMan), _propMan(propMan)
+    MyModel(UndoRedoManager *undoRedoMan, PropertyManager *propMan) : _undoRedoMan(undoRedoMan), _propMan(propMan)
     {
     }
 };
@@ -51,7 +54,7 @@ int main(int argc, char *argv[])
 {
     UndoRedoManager undoRedoMan;
     PropertyManager propMan;
-    MyModel model(undoRedoMan, propMan);
+    MyModel model(&undoRedoMan, &propMan);
 
     printf("Save all properties to JSON:\n");
     printf("---------------------------------------\n");
@@ -61,9 +64,9 @@ int main(int argc, char *argv[])
     printf("Start...\n");
 
 
-    PropValue<double> MyProb("myPropname", std::make_shared<double>(100.0), undoRedoMan, propMan);
+    PropValue<double> MyProb("myPropname", std::make_shared<double>(100.0), &undoRedoMan, &propMan);
 
-    PropValue<double> MyProb2("myPropname2", 200.0, undoRedoMan, propMan);  // automatic creation of shared ptr for 200.0
+    PropValue<double> MyProb2("myPropname2", 200.0, &undoRedoMan, &propMan);  // automatic creation of shared ptr for 200.0
 
 
     shared_ptr<double> myP = make_shared<double>(2);
@@ -84,10 +87,10 @@ int main(int argc, char *argv[])
     undoRedoMan.endCommand();
 
 
-    PropValue<int> myInt = PropValue("myInt", 200, undoRedoMan, propMan);
-    PropValue<double> myDouble = PropValue("myDouble", 300.4, undoRedoMan, propMan);
-    PropValue<bool> myBool = PropValue("myBool", true, undoRedoMan, propMan);
-    PropValue<MyClass> myMyClass = PropValue("myMyClass", make_shared<MyClass>(), undoRedoMan, propMan);
+    PropValue<int> myInt = PropValue("myInt", 200, &undoRedoMan, &propMan);
+    PropValue<double> myDouble = PropValue("myDouble", 300.4, &undoRedoMan, &propMan);
+    PropValue<bool> myBool = PropValue("myBool", true, &undoRedoMan, &propMan);
+    PropValue<MyClass> myMyClass = PropValue("myMyClass", make_shared<MyClass>(), &undoRedoMan, &propMan);
 
     auto jsonStr = myInt.toJson();
     printf("JSON: myInt: %s\n", jsonStr.c_str());
