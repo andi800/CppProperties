@@ -59,6 +59,12 @@ namespace MyClassNamespace
             _num = num;
         }
 
+        std::string getString() const
+        {
+            return "num:" + std::to_string(_num) + ", str: " + _str;
+        }
+
+
         void print()
         {
             printf("MyClass content: num=%d, str=%s\n", _num, _str.c_str());

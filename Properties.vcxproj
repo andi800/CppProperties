@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyClass.h" />
+    <ClInclude Include="Properties\PropList.h" />
     <ClInclude Include="Properties\PropValue.h" />
     <ClInclude Include="Properties\UndoRedoManager.h" />
   </ItemGroup>

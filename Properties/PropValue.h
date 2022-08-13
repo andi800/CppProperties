@@ -94,10 +94,16 @@ namespace Properties
             _updateFunc = updateFunc;
         }
 
-        T get()
+        /*T get()
+        {
+            return *std::static_pointer_cast<T>(_value);
+        }*/
+
+        const T& get()
         {
             return *std::static_pointer_cast<T>(_value);
         }
+
 
         void set(std::shared_ptr<T> newValue)
         {
@@ -114,7 +120,7 @@ namespace Properties
             }
         }
 
-        void set(T newValue)
+        void set(const T &newValue)
         {
             set(std::make_shared<T>(newValue));
         }
@@ -132,13 +138,17 @@ namespace Properties
         void onUndo(std::shared_ptr<Change> change) override
         {
             _value = std::static_pointer_cast<T>(change->OldObj); // TODO: check for cast errors, zero ptrs?
-            _updateFunc(*std::static_pointer_cast<T>(_value));
+            if (_updateFunc) {
+                _updateFunc(*std::static_pointer_cast<T>(_value));
+            }
         }
 
         void onRedo(std::shared_ptr<Change> change) override
         {
             _value = std::static_pointer_cast<T>(change->NewObj);
-            _updateFunc(*std::static_pointer_cast<T>(_value));  // TODO: check for cast errors, zero ptrs?
+            if (_updateFunc) {
+                _updateFunc(*std::static_pointer_cast<T>(_value));  // TODO: check for cast errors, zero ptrs?
+            }
         }
 
         std::string getName() const override

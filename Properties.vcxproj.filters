@@ -22,5 +22,8 @@
       <Filter>Properties</Filter>
     </ClInclude>
     <ClInclude Include="MyClass.h" />
+    <ClInclude Include="Properties\PropList.h">
+      <Filter>Properties</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

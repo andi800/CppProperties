@@ -50,6 +50,7 @@ public:
 };
 
 
+
 int main(int argc, char *argv[])
 {
     UndoRedoManager undoRedoMan;
@@ -92,6 +93,14 @@ int main(int argc, char *argv[])
     PropValue<bool> myBool = PropValue("myBool", true, &undoRedoMan, &propMan);
     PropValue<MyClass> myMyClass = PropValue("myMyClass", make_shared<MyClass>(), &undoRedoMan, &propMan);
 
+    // Get tests
+    printf("GET: myInt: %d\n", myInt.get());
+    printf("GET: myDouble: %f\n", myDouble.get());
+    printf("GET: myBool: %d\n", myBool.get());
+    printf("GET: myMyClass: %s\n", myMyClass.get().getString().c_str());
+
+
+    // Json tests
     auto jsonStr = myInt.toJson();
     printf("JSON: myInt: %s\n", jsonStr.c_str());
     jsonStr = myDouble.toJson();

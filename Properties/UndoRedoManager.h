@@ -15,6 +15,7 @@ namespace Properties
     public:
         std::shared_ptr<void> OldObj;
         std::shared_ptr<void> NewObj;
+        int32_t Param;
         //    std::type_index Type;
     };
 
