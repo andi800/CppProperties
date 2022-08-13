@@ -1,4 +1,4 @@
-#include "Properties/PropValue.h"
+#include "PropValue.h"
 #include "MyClass.h"
 
 using namespace std;
@@ -12,8 +12,8 @@ struct StyleType
     PropertyManager _localPropMan;
     PropValue<double> Margin = PropValue<double>("Margin", std::make_shared<double>(1000.0), _undoRedoMan, &_localPropMan);
     PropValue<double> Size = PropValue<double>("Size", 2000.0, _undoRedoMan, &_localPropMan);  // automatic creation of shared ptr for 200.0
-    PropValue<int> Padding = PropValue("Padding", 3000, _undoRedoMan, &_localPropMan);
-    PropValue<bool> IsDrawn = PropValue("IsDrawn", true, _undoRedoMan, &_localPropMan);
+    PropValue<int> Padding = PropValue<int>("Padding", 3000, _undoRedoMan, &_localPropMan);
+    PropValue<bool> IsDrawn = PropValue<bool>("IsDrawn", true, _undoRedoMan, &_localPropMan);
 
     StyleType(const std::string& prefix, UndoRedoManager *undoRedoMan, PropertyManager *propMan) : _undoRedoMan(undoRedoMan), _localPropMan(PropertyManager(prefix))
     {
@@ -32,9 +32,9 @@ public:
     UndoRedoManager *_undoRedoMan;
     PropertyManager *_propMan;
 
-    PropValue<double> Speed = PropValue<double>("Speed", std::make_shared<double>(100.0), _undoRedoMan, _propMan);
-    PropValue<double> SpeedNoSave = PropValue<double>("SpeedNoSave", std::make_shared<double>(110.0), _undoRedoMan, nullptr);
-    PropValue<double> Size = PropValue<double>("Size", 200.0, _undoRedoMan, _propMan);  // automatic creation of shared ptr for 200.0
+    PropValue<double> Speed = PropValue("Speed", std::make_shared<double>(100.0), _undoRedoMan, _propMan);
+    PropValue<double> SpeedNoSave = PropValue("SpeedNoSave", std::make_shared<double>(110.0), _undoRedoMan, nullptr);
+    PropValue<double> Size = PropValue("Size", 200.0, _undoRedoMan, _propMan);  // automatic creation of shared ptr for 200.0
     PropValue<int> Count = PropValue("Count", 300, _undoRedoMan, _propMan);
     PropValue<bool> IsEmpty = PropValue("IsEmpty", true, _undoRedoMan, _propMan);
     PropValue<MyClass> Custom = PropValue("Custom", make_shared<MyClass>(), _undoRedoMan, _propMan);
@@ -65,12 +65,12 @@ int main(int argc, char *argv[])
     printf("Start...\n");
 
 
-    PropValue<double> MyProb("myPropname", std::make_shared<double>(100.0), &undoRedoMan, &propMan);
+    PropValue MyProb("myPropname", std::make_shared<double>(100.0), &undoRedoMan, &propMan);
 
-    PropValue<double> MyProb2("myPropname2", 200.0, &undoRedoMan, &propMan);  // automatic creation of shared ptr for 200.0
+    PropValue MyProb2("myPropname2", 200.0, &undoRedoMan, &propMan);  // automatic creation of shared ptr for 200.0
 
 
-    shared_ptr<double> myP = make_shared<double>(2);
+    shared_ptr myP = make_shared<double>(2);
 
     *myP = 0;
     printf("myP: %f\n", *myP);

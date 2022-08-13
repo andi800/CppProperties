@@ -1,5 +1,5 @@
 #include "PropValue.h"
-#include "../MyClass.h"
+#include "MyClass.h"
 
 namespace Properties
 {

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Properties">
+      <UniqueIdentifier>{6947c1b8-cf0a-4a3b-930b-15298569801e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\UndoRedoManager.cpp" />
+    <ClCompile Include="Source\PropValue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\PropList.h" />
+    <ClInclude Include="Source\PropValue.h" />
+    <ClInclude Include="Source\UndoRedoManager.h" />
+  </ItemGroup>
+</Project>

@@ -18,11 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\MyClass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Properties\Properties.vcxproj">
+      <Project>{126ea97b-ca14-4f66-99db-390818b38ec7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{126ea97b-ca14-4f66-99db-390818b38ec7}</ProjectGuid>
-    <RootNamespace>Properties</RootNamespace>
+    <ProjectGuid>{9063cde6-498c-4f1a-9a5c-688699581c9f}</ProjectGuid>
+    <RootNamespace>ConsoleApp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,6 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../Properties/Source</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -127,17 +139,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Properties\UndoRedoManager.cpp" />
-    <ClCompile Include="Properties\PropValue.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MyClass.h" />
-    <ClInclude Include="Properties\PropList.h" />
-    <ClInclude Include="Properties\PropValue.h" />
-    <ClInclude Include="Properties\UndoRedoManager.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
